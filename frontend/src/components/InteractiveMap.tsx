@@ -4,32 +4,36 @@ import * as maplibre from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 type Wave = {
-	height: number;
+	hmax: number;
 	unit: string;
 };
 
 const InteractiveMap: Component = () => {
 	const [viewport, setViewport] = createSignal({
-		center: [-122.45, 37.78],
-		zoom: 11,
+		center: [10.736688435108459, 59.9129959529091],
+		zoom: 10,
 	} as Viewport);
 
-	const [location, setLocation] = createSignal<string | maplibre.LngLat>(
-		"Click on the location to show maximum wave height"
-	);
+	const [location, setLocation] = createSignal<maplibre.LngLat>();
 
-	const fetchWaveHeight = async () => {
-		const response = await fetch(`http://127.0.0.1:5000`);
-		let height: number;
+	const fetchWaveHeight = async (latlng: maplibre.LngLat) => {
+		let formData = new FormData();
+		formData.append("latitude", latlng.lat.toString());
+		formData.append("longitude", latlng.lng.toString());
+		const response = await fetch(`http://127.0.0.1:5000`, { body: formData, method: "POST" });
+
+		let hmax: number;
 		let unit: string;
+
 		if (response.ok) {
 			const data = (await response.json()) as Wave;
-			height = data.height;
+			hmax = data.hmax;
 			unit = data.unit;
 		}
-		return height;
+		return hmax;
 	};
-	const [waveHeight] = createResource(location, fetchWaveHeight);
+
+	const [waveHeight] = createResource(location, fetchWaveHeight); //When location changes, fetchWaveHeight is called with location as argument
 
 	return (
 		<div class="w-full h-full">
@@ -48,7 +52,7 @@ const InteractiveMap: Component = () => {
 				<Control type="fullscreen" position="top-right" />
 			</MapGL>
 			<div class="text-gray-50 text-center font-mono mt-5">Max wave height: </div>
-			<div class="text-gray-50 text-center font-mono mt-5 text-xl ">{waveHeight()}</div>
+			<div class="text-gray-50 text-center font-mono mt-2 text-xl ">{waveHeight()}</div>
 		</div>
 	);
 };
