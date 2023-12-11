@@ -9,7 +9,7 @@ const InteractiveMap: Component = () => {
 		zoom: 11,
 	} as Viewport);
 
-	const [waveHeight, setWaveHeight] = createSignal(
+	const [waveHeight, setWaveHeight] = createSignal<string | number>(
 		"Click on the location to show maximum wave height"
 	);
 	return (
@@ -29,7 +29,7 @@ const InteractiveMap: Component = () => {
 				<Control type="fullscreen" position="top-right" />
 			</MapGL>
 			<div class="text-gray-50 text-center font-mono mt-5">Max wave height: </div>
-			<div class="text-gray-50 text-center font-mono mt-5 text-xl ">{waveHeight} </div>
+			<div class="text-gray-50 text-center font-mono mt-5 text-xl ">{waveHeight()} </div>
 		</div>
 	);
 };
