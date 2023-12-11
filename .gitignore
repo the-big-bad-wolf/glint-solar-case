@@ -22,3 +22,4 @@ pnpm-debug.log*
 
 # Python virtual environment
 backend/venv/
+backend/__pycache__/
