@@ -44,7 +44,7 @@ const InteractiveMap: Component = () => {
 				viewport={viewport()}
 				onViewportChange={(evt: Viewport) => setViewport(evt)}
 				onClick={(evt: maplibre.MapMouseEvent) => {
-					setLocation(evt.lngLat);
+					setLocation(evt.lngLat.wrap());
 				}}
 			>
 				<Control type="navigation" position="top-left" />
