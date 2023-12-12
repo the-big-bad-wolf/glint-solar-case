@@ -30,7 +30,7 @@ const InteractiveMap: Component = () => {
 			hmax = data.hmax;
 			unit = data.unit;
 		}
-		return hmax;
+		return [hmax, unit];
 	};
 
 	const [waveHeight] = createResource(location, fetchWaveHeight); //When location changes, fetchWaveHeight is called with location as argument
@@ -44,14 +44,16 @@ const InteractiveMap: Component = () => {
 				viewport={viewport()}
 				onViewportChange={(evt: Viewport) => setViewport(evt)}
 				onClick={(evt: maplibre.MapMouseEvent) => {
-					console.log(evt.lngLat);
 					setLocation(evt.lngLat);
 				}}
 			>
 				<Control type="navigation" position="top-left" />
 				<Control type="fullscreen" position="top-right" />
 			</MapGL>
-			<div class="text-gray-50 text-center font-mono mt-5">Max wave height: </div>
+			<div class="text-gray-50 text-center font-mono mt-5">
+				Max wave height: ({location() ? location().lat.toFixed(2) : ""},{" "}
+				{location() ? location().lng.toFixed(2) : ""})
+			</div>
 			<div class="text-gray-50 text-center font-mono mt-2 text-xl ">{waveHeight()}</div>
 		</div>
 	);

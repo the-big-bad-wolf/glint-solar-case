@@ -1,4 +1,4 @@
-import random
+import math
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import xarray as xr
@@ -21,8 +21,13 @@ def read_netcdfs(path: str, latitude: float, longitude: float):
     wave_heights = dataset["hmax"].sel(
         longitude=longitude, latitude=latitude, method="nearest"
     )
-    hmax = float(wave_heights.max().values)
     unit = wave_heights.attrs["units"]
+    if math.isnan(wave_heights.max().values):
+        hmax = 0
+    else:
+        hmax = float(wave_heights.max().values)
+
     dataset.close()
     wave_heights.close()
+
     return (hmax, unit)
