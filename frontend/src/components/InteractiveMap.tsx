@@ -1,5 +1,5 @@
 import { type Component, createSignal, createResource } from "solid-js";
-import MapGL, { Viewport, Control } from "solid-map-gl";
+import MapGL, { Viewport, Control, Marker } from "solid-map-gl";
 import * as maplibre from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -49,10 +49,11 @@ const InteractiveMap: Component = () => {
 			>
 				<Control type="navigation" position="top-left" />
 				<Control type="fullscreen" position="top-right" />
+				<Marker></Marker>
 			</MapGL>
-			<div class="text-gray-50 text-center font-mono mt-5">
-				Max wave height: ({location() ? location().lat.toFixed(2) : ""},{" "}
-				{location() ? location().lng.toFixed(2) : ""})
+			<div class="text-gray-50 text-center font-mono mt-3">
+				Max wave height for ({location() ? location().lat.toFixed(2) : ""},{" "}
+				{location() ? location().lng.toFixed(2) : ""}):
 			</div>
 			<div class="text-gray-50 text-center font-mono mt-2 text-xl ">{waveHeight()}</div>
 		</div>

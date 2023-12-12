@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["POST"])
 def waveHeight():
     latitude = float(request.form["latitude"])
     longitude = float(request.form["longitude"])
