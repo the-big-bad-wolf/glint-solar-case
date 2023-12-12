@@ -16,12 +16,12 @@ def waveHeight():
 
 
 def read_netcdfs(path: str, latitude: float, longitude: float):
-    # glob expands paths with * to a list of files, like the unix shell
     dataset = xr.open_dataset(path)
     wave_heights = dataset["hmax"].sel(
         longitude=longitude, latitude=latitude, method="nearest"
     )
-    unit = wave_heights.attrs["units"]
+
+    unit = wave_heights.attrs["units"]  # Measurement unit of hmax
     if math.isnan(wave_heights.max().values):
         hmax = 0
     else:

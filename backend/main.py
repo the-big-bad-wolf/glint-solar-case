@@ -2,8 +2,8 @@ import xarray as xr
 import math
 
 
+# Denne filen er kun for å sjekke maks høyde for (0,0)
 def read_netcdfs(path: str, latitude: float, longitude: float):
-    # glob expands paths with * to a list of files, like the unix shell
     dataset = xr.open_dataset(path)
     wave_heights = dataset["hmax"].sel(
         longitude=longitude, latitude=latitude, method="nearest"
